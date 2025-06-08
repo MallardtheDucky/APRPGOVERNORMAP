@@ -73,11 +73,14 @@
   </style>
 </head>
 <body>
+  <div id="header">
+    <div class="title">1990 Live Gubernatorial Election Map</div>
+    <div class="region-container">
       <div class="region-group">
-        <div class="region-label">Cambridge</div>
+        <div class="region-label">Columbia</div>
         <div class="candidate-image-container">
-          <img src="images/candidate1_cambridge.jpg" alt="Candidate 1 Cambridge" class="candidate-image">
-          <img src="images/candidate2_cambridge.jpg" alt="Candidate 2 Cambridge" class="candidate-image">
+          <img src="images/candidate1_columbia.jpg" alt="Candidate 1 Columbia" class="candidate-image">
+          <img src="images/candidate2_columbia.jpg" alt="Candidate 2 Columbia" class="candidate-image">
         </div>
       </div>
       <div class="region-group">
@@ -112,12 +115,8 @@
     // Define region-specific candidates (fallback)
     const regionCandidates = {
       columbia: { candidate1: 'George Bush', candidate2: 'Michael Dukakis' },
-      cambridge: { candidate1: 'Ann Richards', candidate2: 'Paul Simon' },
       superior: { candidate1: 'John Sununu', candidate2: 'Jesse Jackson' },
-      heartland: { candidate1: 'Bob Dole', candidate2: 'Lloyd Bentsen' },
-      yellowstone: { candidate1: 'Dan Quayle', candidate2: 'Al Gore' },
-      austin: { candidate1: 'Jim Baker', candidate2: 'Mario Cuomo' },
-      phoenix: { candidate1: 'Jack Kemp', candidate2: 'Bill Clinton' }
+      heartland: { candidate1: 'Bob Dole', candidate2: 'Lloyd Bentsen' }
     };
 
     map.on('load', async () => {
@@ -206,4 +205,3 @@
   </script>
 </body>
 </html>
-
