@@ -17,6 +17,7 @@
       top: 180px;
       bottom: 0;
       width: 100%;
+      transition: top 0.3s ease;
     }
     #header {
       position: absolute;
@@ -32,6 +33,13 @@
       align-items: center;
       height: 180px;
       overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    #header.hidden {
+      transform: translateY(-100%);
+    }
+    #map.full {
+      top: 0;
     }
     .title {
       font-size: 30px;
@@ -70,6 +78,33 @@
       object-fit: cover;
       border: 2px solid white;
     }
+    #hide-header {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background: none;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+    }
+    #show-header {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      background: #222;
+      border: none;
+      color: white;
+      font-size: 24px;
+      cursor: pointer;
+      z-index: 999;
+      display: none;
+      padding: 5px 10px;
+      border-radius: 5px;
+    }
+    #show-header.visible {
+      display: block;
+    }
   </style>
 </head>
 <body>
@@ -98,7 +133,9 @@
         </div>
       </div>
     </div>
+    <button id="hide-header" title="Hide header">▲</button>
   </div>
+  <button id="show-header" title="Show header">▼</button>
 
   <div id="map"></div>
 
@@ -118,6 +155,26 @@
       superior: { candidate1: 'John Sununu', candidate2: 'Jesse Jackson' },
       heartland: { candidate1: 'Bob Dole', candidate2: 'Lloyd Bentsen' }
     };
+
+    // Header toggle functionality
+    const header = document.getElementById('header');
+    const mapDiv = document.getElementById('map');
+    const hideButton = document.getElementById('hide-header');
+    const showButton = document.getElementById('show-header');
+
+    hideButton.addEventListener('click', () => {
+      header.classList.add('hidden');
+      mapDiv.classList.add('full');
+      showButton.classList.add('visible');
+      map.resize();
+    });
+
+    showButton.addEventListener('click', () => {
+      header.classList.remove('hidden');
+      mapDiv.classList.remove('full');
+      showButton.classList.remove('visible');
+      map.resize();
+    });
 
     map.on('load', async () => {
       try {
@@ -205,5 +262,3 @@
   </script>
 </body>
 </html>
-
-
