@@ -78,31 +78,41 @@
       object-fit: cover;
       border: 2px solid white;
     }
-    #hide-header {
+    #toggle-header {
       position: absolute;
-      top: 10px;
-      right: 20px;
+      bottom: 10px;
+      left: 50%;
+      transform: translateX(-50%);
       background: none;
       border: none;
       color: white;
       font-size: 24px;
       cursor: pointer;
+      transition: transform 0.3s ease;
     }
-    #show-header {
+    #toggle-header.up {
+      transform: translateX(-50%) rotate(180deg);
+    }
+    #toggle-header-map {
       position: absolute;
       top: 10px;
-      right: 20px;
-      background: #222;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(0, 0, 0, 0.7);
       border: none;
       color: white;
       font-size: 24px;
       cursor: pointer;
-      z-index: 999;
-      display: none;
       padding: 5px 10px;
       border-radius: 5px;
+      z-index: 1000;
+      display: none;
+      transition: transform 0.3s ease;
     }
-    #show-header.visible {
+    #toggle-header-map.down {
+      transform: translateX(-50%) rotate(180deg);
+    }
+    #header.hidden + #map #toggle-header-map {
       display: block;
     }
   </style>
@@ -133,11 +143,12 @@
         </div>
       </div>
     </div>
-    <button id="hide-header" title="Hide header">▲</button>
+    <button id="toggle-header" title="Toggle header visibility">▲</button>
   </div>
-  <button id="show-header" title="Show header">▼</button>
 
-  <div id="map"></div>
+  <div id="map">
+    <button id="toggle-header-map" title="Toggle header visibility">▼</button>
+  </div>
 
   <script>
     mapboxgl.accessToken = 'pk.eyJ1IjoiNW00Y2s3NyIsImEiOiJjbWI4eXFqeDkwbzY1MmpwcDFzZDIwMmVqIn0.6JGe7JWhk28z5D3TLIJQwg';
@@ -159,22 +170,21 @@
     // Header toggle functionality
     const header = document.getElementById('header');
     const mapDiv = document.getElementById('map');
-    const hideButton = document.getElementById('hide-header');
-    const showButton = document.getElementById('show-header');
+    const toggleButton = document.getElementById('toggle-header');
+    const toggleButtonMap = document.getElementById('toggle-header-map');
 
-    hideButton.addEventListener('click', () => {
-      header.classList.add('hidden');
-      mapDiv.classList.add('full');
-      showButton.classList.add('visible');
-      map.resize();
-    });
+    function toggleHeader() {
+      header.classList.toggle('hidden');
+      mapDiv.classList.toggle('full');
+      toggleButton.classList.toggle('up');
+      toggleButtonMap.classList.toggle('down');
+      toggleButton.innerHTML = header.classList.contains('hidden') ? '▼' : '▲';
+      toggleButtonMap.innerHTML = header.classList.contains('hidden') ? '▼' : '▲';
+      map.resize(); // Ensure map resizes correctly after header toggle
+    }
 
-    showButton.addEventListener('click', () => {
-      header.classList.remove('hidden');
-      mapDiv.classList.remove('full');
-      showButton.classList.remove('visible');
-      map.resize();
-    });
+    toggleButton.addEventListener('click', toggleHeader);
+    toggleButtonMap.addEventListener('click', toggleHeader);
 
     map.on('load', async () => {
       try {
